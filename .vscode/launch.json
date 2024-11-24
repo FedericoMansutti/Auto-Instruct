@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args":["--batch_dir","data/gpt3_generations/","--seed_tasks_path","C:/Users/mansu/Documents/self-instruct/data/seed_tasks.jsonl","--num_instructions_to_generate","50000","--engine","gpt-3.5-turbo","--num_prompt_instructions","8","--request_batch_size","5","--api_key","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"]
+            "args":["--batch_dir","data/gpt3_generations/","--seed_tasks_path","C:/Users/mansu/Documents/self-instruct/data/seed_tasks.jsonl","--num_instructions_to_generate","50000","--engine","gpt-4o","--num_prompt_instructions","8","--request_batch_size","5","--api_key","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"]
         }
     ]
 }

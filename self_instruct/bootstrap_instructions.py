@@ -19,9 +19,9 @@ random.seed(42)
 def encode_prompt(prompt_instructions, classification=False):
     """Encode multiple prompt instructions into a single string."""
     if classification:
-        prompt = "Come up with a series of classification tasks. Try to specify the possible output labels when possible.\n"
+        prompt = "Come up with a series of classification tasks. Try to specify the possible output labels when possible. Write the tasks directly with no preamble.\n"
     else:
-        prompt = "Come up with a series of tasks:\n"
+        prompt = "Come up with a series of tasks. Write the tasks directly with no preamble.\n"
     for idx, instruction in enumerate(prompt_instructions):
         instruction = re.sub(r"\s+", " ", instruction).strip().rstrip(":")
         prompt += f"{idx+1}. {instruction}\n"
@@ -39,17 +39,19 @@ def find_word_in_string(w, s):
 
 
 def post_process_gpt3_response(response):
-    if response is None or response.finish_reason == "length":
+    if response is None:
         return []
 
     #handles the case where multiple isntructions are given as one response
-    raw_instructions = re.split(r"\n\d+\s?\. ", response.message.content)
+    raw_instructions = re.split(r"\n\d+\s?\. |\d+\. |\s\d+\. |\.\s+Create\b |\.\s+Design\b |\.\s+Research\b |\.\s+Write\b |\.\s+Plan\b |\.\s+Summarize\b |\.\s+Propose\b |\.\s+Analyze\b |\.\s+Translate\b |\.\s+Identify\b |\.\s+Illustrate\b |\.\s+Draft\b |\.\s+Develop\b |\.\s+Complete\b |\.\s+Critique\b |\.\s+Explain\b" , response)
 
     instances = []
     #only consider the first instruction
     for inst in raw_instructions:
-        inst = re.sub(r"\s+", " ", inst).strip()
+        inst = re.sub(r"[\s\*]+", " ", inst).strip()
+        #inst = re.sub(r'^\d+\.\s*(.+)$', r'\1', response, flags=re.MULTILINE)
         inst = inst.strip().capitalize()
+        
 
         if inst == "":
             continue
@@ -57,7 +59,7 @@ def post_process_gpt3_response(response):
         if len(inst.split()) <= 3 or len(inst.split()) > 150:
             continue
         # filter based on keywords that are not suitable for language models.
-        if any(find_word_in_string(word, inst) for word in ["image", "images", "graph", "graphs", "picture", "pictures", "file", "files", "map", "maps", "draw", "plot", "go to"]):
+        if any(find_word_in_string(word, inst) for word in ["image", "tasks", "images", "graph", "graphs", "picture", "pictures", "file", "files", "map", "maps", "draw", "plot", "go to"]):
             continue
         # We found that the model tends to add "write a program" to some existing instructions, which lead to a lot of such instructions.
         # And it's a bit comfusing whether the model need to write a program or directly output the result. 
@@ -65,16 +67,21 @@ def post_process_gpt3_response(response):
         # Note this is not a comprehensive filtering for all programming instructions.
         if inst.startswith("Write a program"):
             continue
-        # filter those starting with punctuation
-        if inst[0] in string.punctuation:
+
+        if inst.startswith("Certainly"):
             continue
+
+        if inst.startswith("Sure"):
+            continue
+        # filter those starting with punctuation
         # filter those starting with non-english character
         if not inst[0].isascii():
             continue
         instances.append(inst)
 
     #only consider one instruction
-    return instances[0]
+    print(len(instances))
+    return instances
 
 
 def parse_args():
@@ -163,7 +170,6 @@ if __name__ == "__main__":
 
     with open(os.path.join(args.batch_dir, "machine_generated_instructions.jsonl"), "a") as fout:
         while len(machine_instructions) < args.num_instructions_to_generate:
-            print(len(machine_instructions))
             batch_inputs = []
             for _ in range(args.request_batch_size):
                 # sample machine instructions from the pool
@@ -187,17 +193,18 @@ if __name__ == "__main__":
                 frequency_penalty=0,
                 presence_penalty=2,
                 stop_sequences=["\n\n", "\n16", "16.", "16 ."],
-                logprobs=True,
-                n=1,
-                best_of=1,
-                api_key=args.api_key,
+                #logprobs=True,
+                n=5,
+                #best_of=1,
+                api_key=args.api_key
             )
             instructions = []
             all_metadata = []
             
             for result in results:
                 new_instructions = post_process_gpt3_response(result["response"])
-                instructions.append(new_instructions)
+                if new_instructions:
+                    instructions += new_instructions
                 #all_metadata += [result] * len(new_instructions)
 
             for inst in instructions:

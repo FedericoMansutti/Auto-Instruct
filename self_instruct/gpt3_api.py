@@ -8,15 +8,89 @@ from datetime import datetime
 import argparse
 import time
 
+'''
+async def make_single_request(
+    client, prompt, engine, target_length, temperature, top_p,
+    frequency_penalty, presence_penalty, stop_sequences, retries, backoff_time
+):
+    retry_cnt = 0
+    while retry_cnt <= retries:
+        try:
+            response = await asyncio.to_thread(client.chat.completions.create,
+                model=engine,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=target_length,
+                temperature=temperature,
+                top_p=top_p,
+                frequency_penalty=frequency_penalty,
+                presence_penalty=presence_penalty,
+                stop=stop_sequences,
+                n=1,
+                logprobs=False
+            )
+            return response
+        except openai.OpenAIError as e:
+            print(f"OpenAIError for prompt: {prompt[:50]}... Error: {e}")
+            if "Please reduce your prompt" in str(e):
+                target_length = int(target_length * 0.8)
+                print(f"Reducing target length to {target_length}, retrying...")
+            else:
+                print(f"Retrying in {backoff_time} seconds...")
+                await asyncio.sleep(backoff_time)
+                backoff_time *= 1.5
+            retry_cnt += 1
+    return None
+
+async def make_requests_async(
+        engine, prompts, max_tokens, temperature, top_p,
+        frequency_penalty, presence_penalty, stop_sequences, logprobs, n, best_of, retries=3, api_key=None, organization=None
+    ):
+    if api_key is not None:
+        client = OpenAI(api_key=api_key)
+    
+    tasks = [
+        make_single_request(
+            client, prompt, engine, max_tokens, temperature, top_p,
+            frequency_penalty, presence_penalty, stop_sequences, retries, 30
+        )
+        for prompt in prompts
+    ]
+    
+    responses = await asyncio.gather(*tasks)
+    
+
+    if isinstance(prompts, list):
+        results = []
+        for j, prompt in enumerate(prompts):
+            data = {
+                "prompt": prompt,
+                "response": responses[j].choices[0] if responses[j] else None,
+                "created_at": str(datetime.now()),
+            }
+            results.append(data)
+
+        return results
+    else:
+        data = {
+            "prompt": prompts,
+            "response": responses[0].choices[0] if responses[j] else None,
+            "created_at": str(datetime.now()),
+        }
+        return [data]
+    
+
+def make_requests(*args, **kwargs):
+    return asyncio.run(make_requests_async(*args, **kwargs))
+
+'''
 
 def make_requests(
         engine, prompts, max_tokens, temperature, top_p, 
-        frequency_penalty, presence_penalty, stop_sequences, logprobs, n, best_of, retries=3, api_key=None, organization=None
+        frequency_penalty, presence_penalty, stop_sequences, n=1, retries=3, api_key=None
     ):
     responses = []
     target_length = max_tokens
     if api_key is not None:
-        openai.api_key = api_key
         client = OpenAI(api_key=api_key)
 
     retry_cnt = 0
@@ -36,7 +110,7 @@ def make_requests(
                 frequency_penalty=frequency_penalty,
                 presence_penalty=presence_penalty,
                 stop=stop_sequences,
-                n=1,
+                n=n,
                 logprobs=False)
 
                 responses.append(response)
@@ -59,7 +133,7 @@ def make_requests(
         for j, prompt in enumerate(prompts):
             data = {
                 "prompt": prompt,
-                "response": responses[j].choices[0] if responses[j] else None,
+                "response": ' '.join(choice.message.content for choice in responses[j].choices) if responses[j] else None,
                 "created_at": str(datetime.now()),
             }
             results.append(data)
@@ -68,7 +142,7 @@ def make_requests(
     else:
         data = {
             "prompt": prompts,
-            "response": responses[0].choices[0] if responses[j] else None,
+            "response": ' '.join(choice.message.content for choice in responses[0].choices) if responses[0] else None,
             "created_at": str(datetime.now()),
         }
         return [data]
