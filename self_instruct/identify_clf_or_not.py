@@ -107,15 +107,12 @@ if __name__ == '__main__':
                     frequency_penalty=0,
                     presence_penalty=0,
                     stop_sequences=["\n", "Task"],
-                    logprobs=1,
                     n=1,
-                    best_of=1,
-                    api_key=args.api_key,
-                    organization=args.organization)
+                    api_key=args.api_key)
                 for i in range(len(batch)):
                     data = batch[i]
                     if results[i]["response"] is not None:
-                        data["is_classification"] = results[i]["response"]["choices"][0]["text"]
+                        data["is_classification"] = results[i]["response"]
                     else:
                         data["is_classification"] = ""
                     data = {
@@ -126,5 +123,6 @@ if __name__ == '__main__':
                         (k, data[k]) for k in \
                             ["instruction", "is_classification"]
                         )
-                    fout.write(json.dumps(data, ensure_ascii=False) + "\n")
+                    fout.write(json.dumps(data, ensure_ascii=True) + "\n")
+                    fout.flush()
             progress_bar.update(len(batch))

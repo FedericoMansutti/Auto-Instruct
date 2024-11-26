@@ -151,11 +151,14 @@ if __name__ == "__main__":
     
     os.makedirs(args.batch_dir, exist_ok=True)
     request_idx = 0
+    linecount = 0
     # load the LM-generated instructions
     machine_instructions = []
     if os.path.exists(os.path.join(args.batch_dir, "machine_generated_instructions.jsonl")):
         with open(os.path.join(args.batch_dir, "machine_generated_instructions.jsonl"), "r") as fin:
             for line in fin:
+                linecount += 1
+                print(linecount)
                 instruction_info = json.loads(line)
                 machine_instructions.append(instruction_info["instruction"])
                 request_idx = instruction_info["request_idx"] + 1
