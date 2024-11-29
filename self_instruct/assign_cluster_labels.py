@@ -18,6 +18,7 @@ from tqdm import tqdm
 from openai import OpenAI
 from collections import OrderedDict
 from gpt3_api import make_requests as make_gpt3_requests
+from sklearn.metrics import silhouette_score
 
 
 def process(text, lemmatizer=nltk.WordNetLemmatizer()):
@@ -166,6 +167,25 @@ def parse_args():
     )
     return parser.parse_args()
 
+def plot_silhouette_scores(silhouette_scores):
+    plt.figure(figsize=(10, 6))
+    plt.plot(list(n_clusters_range), silhouette_scores, 'bo-')
+    plt.xlabel('Number of Clusters')
+    plt.ylabel('Silhouette Score')
+    plt.title('Silhouette Score vs Number of Clusters')
+    plt.grid(True)
+    # Add a vertical line at the optimal number of clusters
+    plt.axvline(x=optimal_n_clusters, color='r', linestyle='--', 
+                label=f'Optimal clusters: {optimal_n_clusters}')
+    plt.legend()
+    
+    # Save the plot
+    plt.savefig(os.path.join(args.batch_dir, 'silhouette_scores.png'))
+    plt.close()
+
+
+
+
 
 
 
@@ -229,49 +249,64 @@ if __name__ == '__main__':
     # Ensure data is in the correct format
     scaled_embedding = np.array(scaled_embedding, dtype=np.float64)
 
-    # Apply Gaussian Mixture Model
+     # Try different numbers of clusters and compute silhouette scores
+    n_clusters_range = range(2, 51)  # Test from 2 to 50 clusters
+    silhouette_scores = []
+    
+    print("Computing silhouette scores for different cluster counts...")
+    for n_clusters in tqdm(n_clusters_range):
+        gmm = GaussianMixture(
+            n_components=n_clusters,
+            random_state=42,
+            covariance_type='full',
+            n_init=5
+        )
+        clusters = gmm.fit_predict(scaled_embedding)
+        score = silhouette_score(scaled_embedding, clusters)
+        silhouette_scores.append(score)
+
+    # Find optimal number of clusters
+    optimal_n_clusters = n_clusters_range[np.argmax(silhouette_scores)]
+    print(f"Optimal number of clusters: {optimal_n_clusters}")
+
+    plot_silhouette_scores(silhouette_scores)
+
+    # Apply GMM with optimal number of clusters
     gmm = GaussianMixture(
-        n_components=16,           # Number of clusters/components
-        random_state=42,          # For reproducibility
-        covariance_type='full',   # Full covariance matrix
-        n_init=5                  # Number of initializations to perform
+        n_components=optimal_n_clusters,
+        random_state=42,
+        covariance_type='full',
+        n_init=5
     )
     clusters = gmm.fit_predict(scaled_embedding)
 
     # Create a figure with subplots for each cluster
     unique_clusters = sorted(np.unique(clusters))
 
-    # Print some example instructions from each cluster
-    print("\nExample instructions from each cluster:")
-    for cluster_id in unique_clusters:
-        cluster_mask = (clusters == cluster_id)
-        label = "Noise" if cluster_id == -1 else f"Cluster {cluster_id}"
-        print(f"\n{label} examples:")
-        # Get original instructions (before lemmatization)
-        cluster_examples = [line for i, line in enumerate(lines) if cluster_mask[i]]
-        # Print first 3 examples
-        for example in cluster_examples[:3]:
-            print(f"- {example}")
+    output_path = os.path.join(args.batch_dir, f"cluster_assignments.jsonl")
+    with open(output_path, 'w', encoding='utf-8') as fout:
+        for cluster_id in unique_clusters:
+            cluster_mask = (clusters == cluster_id)
+            label = "Noise" if cluster_id == -1 else f"Cluster {cluster_id}"
+            # Get original instructions (before lemmatization)
+            cluster_examples = [line for i, line in enumerate(lines) if cluster_mask[i]]
 
 
-        numbered_examples = "\n".join(f"{i+1}. {example.strip()}" for i, example in enumerate(cluster_examples[:100]))
-        prompts = [numbered_examples + "\nFind the common topic of the previous instructions. Answer with no preamble."]
-        results = make_gpt3_requests(
-                    engine=args.engine,
-                    prompts=prompts,
-                    max_tokens=100,
-                    temperature=0,
-                    top_p=0,
-                    frequency_penalty=0,
-                    presence_penalty=0,
-                    stop_sequences=["\n", "Task"],
-                    n=1,
-                    api_key=args.api_key)
-        
-        print(results[0]["response"])
-        
-        output_path = os.path.join(args.batch_dir, f"cluster_assignments.jsonl")
-        with open(output_path, 'w', encoding='utf-8') as fout:
+            numbered_examples = "\n".join(f"{i+1}. {example.strip()}" for i, example in enumerate(cluster_examples[:100]))
+            prompts = [numbered_examples + "\nFind the common topic of the previous instructions. Answer with no preamble."]
+            results = make_gpt3_requests(
+                        engine=args.engine,
+                        prompts=prompts,
+                        max_tokens=100,
+                        temperature=0,
+                        top_p=0,
+                        frequency_penalty=0,
+                        presence_penalty=0,
+                        stop_sequences=["\n", "Task"],
+                        n=1,
+                        api_key=args.api_key)
+            
+            
             for example in cluster_examples:
                 data = {
                     "instruction": example,
