@@ -9832,3 +9832,164 @@
 {"instruction": "Use the formula (f - 32) x 5/9 to convert fahrenheit to celsius: \\(85\u00b0f = 29.44\u00b0c\\).", "input": "85\u00b0F", "is_classification": "No", "output_type": "Substitute the Fahrenheit value into the formula and calculate."}
 {"instruction": "The main theme of this paragraph.", "input": "None", "is_classification": "No", "output_type": "None"}
 {"instruction": "List and describe five key features of modern smartphones.", "input": "None", "is_classification": "No", "output_type": "Identify common features across popular smartphone models. Describe each feature's functionality and benefits."}
+{"instruction": "Task: decide whether the syllogism is logically sound. - analyze the premises and conclusion of a given syllogism to determine if it follows logical reasoning.", "is_classification": "Yes", "labels": "valid, invalid"}
+{"instruction": "Analyze and compare the meanings of two given sentences to determine if they are equivalent, answering with \"yes\" or \"no.\"", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Read a multiple-choice question and select the correct answer from options a, b, c, or d.", "is_classification": "Yes", "labels": "a, b, c, d"}
+{"instruction": "Analyze the given dialogue for indicators of satisfaction like positive language, expressions of gratitude, or resolution acknowledgment, and classify accordingly.", "is_classification": "Yes", "labels": "satisfied, unsatisfied, neutral"}
+{"instruction": "How satisfied are you with our new product? (very satisfied, satisfied, neutral, unsatisfied, very unsatisfied)", "is_classification": "Yes", "labels": "very satisfied, satisfied, neutral, unsatisfied, very unsatisfied"}
+{"instruction": "How likely are you to recommend this product to others? (very likely, likely, neutral, unlikely, very unlikely)", "is_classification": "Yes", "labels": "very likely, likely, neutral, unlikely, very unlikely"}
+{"instruction": "Do you think the product is priced appropriately? (yes, no, not sure)", "is_classification": "Yes", "labels": "yes, no, not sure"}
+{"instruction": "How does this product compare to similar products you've used? (much better, better, about the same, worse, much worse) - demographic questions:", "is_classification": "Yes", "labels": "much better, better, about the same, worse, much worse"}
+{"instruction": "Compare the meaning of two given sentences and determine if they convey the same message. respond with \"yes\" or \"no.\"", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Analyze a provided dialogue to assess whether the user expresses satisfaction with the service. conclude with either \"satisfied\" or \"unsatisfied.\"", "is_classification": "Yes", "labels": "satisfied, unsatisfied"}
+{"instruction": "Evaluate the logical validity of a given syllogism by analyzing its premises and conclusion.", "is_classification": "Yes", "labels": "valid, invalid"}
+{"instruction": "Identify and output the largest number from a given set of numbers directly.", "is_classification": "Yes", "labels": "largest number"}
+{"instruction": "Analyze the sentiment of a given text and categorize it as positive, negative, or neutral.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Evaluate the logical validity of the given syllogism by checking if the conclusion follows necessarily from the premises.", "is_classification": "Yes", "labels": "valid, invalid"}
+{"instruction": "Evaluate whether a given sentence is factually correct by analyzing its content and context; respond with \"yes\" or \"no.\"", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Analyze the document to determine if it supports or does not support the claim.", "is_classification": "Yes", "labels": "supports, does not support"}
+{"instruction": "Assess whether the conclusion of the syllogism logically follows from its premises, determining its validity.", "is_classification": "Yes", "labels": "valid, invalid"}
+{"instruction": "Analyze a social media post to determine the sentiment expressed, categorizing it as positive, negative, or neutral. provide a brief explanation for your classification.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the news article and identify its categories from the given options, listing them one by one, separated by commas.", "is_classification": "Yes", "labels": "politics, business, technology, health, entertainment, sports, science, world, local, opinion"}
+{"instruction": "Analyze the news article to identify and list its relevant categories from the provided options, ensuring each category is separated by a comma.", "is_classification": "Yes", "labels": "news, politics, sports, entertainment, technology, health, business, science, world, lifestyle"}
+{"instruction": "Analyze a personality profile and job description to determine suitability for the role.", "is_classification": "Yes", "labels": "suitable, not suitable"}
+{"instruction": "Determine if an email is likely to be spam or not.", "is_classification": "Yes", "labels": "spam, not spam"}
+{"instruction": "Determine if the email is phishing or legitimate.", "is_classification": "Yes", "labels": "phishing, legitimate"}
+{"instruction": "Determine if the email is spam or not based on its content.", "is_classification": "Yes", "labels": "spam, not spam"}
+{"instruction": "Given a sentence, output the pos tags of all the words using labels such as adjective, adverb, conjunction, determiner, noun, number, preposition, pronoun, verb.", "is_classification": "Yes", "labels": "adjective, adverb, conjunction, determiner, noun, number, preposition, pronoun, verb"}
+{"instruction": "Identify if the email content is promotional.", "is_classification": "Yes", "labels": "promotional, not promotional"}
+{"instruction": "Provide pos tags for each word in a sentence using specified labels.", "is_classification": "Yes", "labels": "noun, verb, adjective, adverb, pronoun, preposition, conjunction, interjection, determiner, numeral, particle, auxiliary"}
+{"instruction": "Provide the pos tags for each word in a given sentence using specified labels: adjective, adverb, conjunction, determiner, noun, number, preposition, pronoun, verb.", "is_classification": "Yes", "labels": "adjective, adverb, conjunction, determiner, noun, number, preposition, pronoun, verb"}
+{"instruction": "Determine if the following number is prime: 47.", "is_classification": "Yes", "labels": "prime, not prime"}
+{"instruction": "(please provide the email content to classify as spam or not.)", "is_classification": "Yes", "labels": "spam, not spam"}
+{"instruction": "Email content analysis (e.g., keywords, sender reputation) to determine spam likelihood. output example: `false` for non-spam.", "is_classification": "Yes", "labels": "spam, non-spam"}
+{"instruction": "Determine if the given instance is passive-aggressive; output 1 for yes, 0 for no.", "is_classification": "Yes", "labels": "1, 0"}
+{"instruction": "Analyze the economic policies mentioned and determine if they align more with democratic or republican values.", "is_classification": "Yes", "labels": "democratic, republican"}
+{"instruction": "Given a sentence, identify and label each word's part of speech using the provided pos tag labels.", "is_classification": "Yes", "labels": "noun, verb, adjective, adverb, pronoun, preposition, conjunction, interjection, determiner, numeral, particle, auxiliary"}
+{"instruction": "Categorize the list of items into appropriate groups based on their characteristics or functions.", "is_classification": "Yes", "labels": "categories, groups"}
+{"instruction": "Analyze the sentiment of customer reviews for a product.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze customer feedback for sentiment analysis.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Evaluate the sentiment of a given movie review.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Determine the appropriate categories for a news article about a new smartphone release featuring innovative technology and its impact on global markets.", "is_classification": "Yes", "labels": "technology, business, global markets"}
+{"instruction": "Determine whether given political opinions align more closely with democratic or republican ideologies.", "is_classification": "Yes", "labels": "democratic, republican"}
+{"instruction": "Assess if a provided email is promotional in nature.", "is_classification": "Yes", "labels": "promotional, not promotional"}
+{"instruction": "Determine whether a person is more likely to align with democrats or republicans based on given political opinions.", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "Assess if the provided email content qualifies as a promotional message.", "is_classification": "Yes", "labels": "promotional, non-promotional"}
+{"instruction": "Assess whether a given sentence is factually correct with a yes or no answer.", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Analyze a piece of code to identify syntax errors; return true if an error exists, otherwise return false.", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Given political opinions, classify as follows: - supports universal healthcare and climate change action: likely democrat. - advocates for lower taxes and strong national defense: likely republican.", "is_classification": "Yes", "labels": "likely democrat, likely republican"}
+{"instruction": "Political opinions classification task.", "is_classification": "Yes", "labels": "conservative, liberal, moderate, libertarian, socialist"}
+{"instruction": "[insert political opinions here] based on these opinions, the person is likely aligned with [democrats/republicans].", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "[classification of political opinions into democrats or republicans]", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "Classify based on key issues such as taxation, healthcare, gun control, and social policies; democrats generally support progressive taxation, universal healthcare, stricter gun laws, and social equality, while republicans typically advocate for lower taxes, private healthcare options, gun rights, and traditional values.", "is_classification": "Yes", "labels": "democrat, republican"}
+{"instruction": "Determine whether a given historical event occurred before or after 1900.", "is_classification": "Yes", "labels": "before 1900, after 1900"}
+{"instruction": "Identify the categories of a news article.", "is_classification": "Yes", "labels": "politics, sports, entertainment, technology, business, health, science, world, local"}
+{"instruction": "Evaluate factual correctness of a sentence.", "is_classification": "Yes", "labels": "true, false, unknown"}
+{"instruction": "Answer a multiple choice question by selecting a, b, c, or d.", "is_classification": "Yes", "labels": "a, b, c, d"}
+{"instruction": "\"i need help tracking my package.\" - intent: 2) shipping & delivery", "is_classification": "Yes", "labels": "shipping & delivery"}
+{"instruction": "Identify all the categories that a provided news article belongs to from the list: music, sports, politics, tech, finance, basketball, soccer, tennis, entertainment, digital game, world news. output its categories one by one, separated by commas.", "is_classification": "Yes", "labels": "music, sports, politics, tech, finance, basketball, soccer, tennis, entertainment, digital game, world news"}
+{"instruction": "Evaluate a dialogue to determine if the user is satisfied or unsatisfied with the service provided.", "is_classification": "Yes", "labels": "satisfied, unsatisfied"}
+{"instruction": "Dialogue classification: - user: \"thank you so much! this is exactly what i needed.\" - response: satisfied", "is_classification": "Yes", "labels": "satisfied, unsatisfied"}
+{"instruction": "Dialogue classification: if the dialogue includes phrases like \"thank you, this is exactly what i needed,\" classify as \"satisfied.\" if it includes complaints or requests for further assistance, classify as \"unsatisfied.\"", "is_classification": "Yes", "labels": "satisfied, unsatisfied"}
+{"instruction": "Analyze the tone, content, and language of an email to determine if it is promotional.", "is_classification": "Yes", "labels": "promotional, not promotional"}
+{"instruction": "Classify the sentiment: \"i love spending time with my family, but sometimes it can be overwhelming.\"", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Classify the sentiment of the sentence \"i'm thrilled about my promotion, but sad to leave my current team\" as mixed.", "is_classification": "Yes", "labels": "positive, negative, mixed"}
+{"instruction": "Analyze the tone of a given passage and describe it using adjectives like \"optimistic,\" \"pessimistic,\" or \"neutral.\"", "is_classification": "Yes", "labels": "optimistic, pessimistic, neutral"}
+{"instruction": "Evaluate whether sharing confidential information without consent is ethical or not. output \"ethical\" or \"not ethical\".", "is_classification": "Yes", "labels": "ethical, not ethical"}
+{"instruction": "Determine whether a given string is a palindrome.", "is_classification": "Yes", "labels": "palindrome, not palindrome"}
+{"instruction": "Determine if the following news article contains misinformation. output true or false.", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Determine whether a given email is promotional in nature.", "is_classification": "Yes", "labels": "promotional, not promotional"}
+{"instruction": "Analyze if the email content includes offers, discounts, or product highlights to determine if it's promotional.", "is_classification": "Yes", "labels": "promotional, not promotional"}
+{"instruction": "Analyze the sentiment expressed in the customer review.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Identify the genre of a given song based on its lyrics and musical elements.", "is_classification": "Yes", "labels": "pop, rock, hip-hop, jazz, classical, country, electronic, reggae, blues, metal"}
+{"instruction": "Determine the sentiment of a customer review.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Choose a topic for the following article. topic candidates include: technology, education, environment, culture, travel, history, and food.", "is_classification": "Yes", "labels": "technology, education, environment, culture, travel, history, food"}
+{"instruction": "Analyze user queries to determine which passage contains the answer, then provide the passage index.", "is_classification": "Yes", "labels": "passage index 1, passage index 2, passage index 3, ... (and so on, depending on the number of passages)"}
+{"instruction": "Determine which passage contains the answer to a user query and provide its index.", "is_classification": "Yes", "labels": "0, 1, 2, 3, ... (depending on the number of passages)"}
+{"instruction": "Classify political opinions to determine if they align more closely with democrats or republicans.", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "Determine whether the following email is a promotional message.", "is_classification": "Yes", "labels": "promotional, not promotional"}
+{"instruction": "Determine whether a given email qualifies as a promotional message.", "is_classification": "Yes", "labels": "promotional, non-promotional"}
+{"instruction": "Determine if the cancellation was within the airline's control or due to extraordinary circumstances.", "is_classification": "Yes", "labels": "within control, extraordinary circumstances"}
+{"instruction": "Assess whether the airline offered an alternative flight or compensation as required by law.", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Determine whether the following email contains phishing elements.", "is_classification": "Yes", "labels": "phishing, not phishing"}
+{"instruction": "Determine whether the following message is spam or legitimate communication.", "is_classification": "Yes", "labels": "spam, legitimate"}
+{"instruction": "Return the word at the specified position in a sentence, considering each word is separated by white space and indexing starts from 1.", "is_classification": "Yes", "labels": "word at specified position"}
+{"instruction": "Determine if a twitter post violates community guidelines.", "is_classification": "Yes", "labels": "violates, does not violate"}
+{"instruction": "Analyze whether an email is likely to be phishing.", "is_classification": "Yes", "labels": "phishing, not phishing"}
+{"instruction": "Determine whether the provided text is a phishing attempt.", "is_classification": "Yes", "labels": "phishing, not phishing"}
+{"instruction": "Determine if the given statement is a fact or an opinion.", "is_classification": "Yes", "labels": "fact, opinion"}
+{"instruction": "Fact-checking: determine if a given sentence is factually correct.", "is_classification": "Yes", "labels": "true, false, unknown"}
+{"instruction": "Article topic selection: choose an appropriate topic from politics, sports, health, science, business, finance, or entertainment.", "is_classification": "Yes", "labels": "politics, sports, health, science, business, finance, entertainment"}
+{"instruction": "Political opinion classification: analyze political opinions to determine alignment with democrats or republicans.", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "Opinion: supports universal healthcare and stricter gun control laws. classification: democrats", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "Factual accuracy check: determine if the given sentence is factually correct by verifying information.", "is_classification": "Yes", "labels": "correct, incorrect, unverifiable"}
+{"instruction": "Categorize a news article into relevant categories such as music, sports, politics, tech, finance, basketball, soccer, tennis, entertainment, digital game, world news, listing each category separately.", "is_classification": "Yes", "labels": "music, sports, politics, tech, finance, basketball, soccer, tennis, entertainment, digital game, world news"}
+{"instruction": "Identify the logical fallacy present in the argument.", "is_classification": "Yes", "labels": "ad hominem, straw man, false dilemma, slippery slope, circular reasoning, hasty generalization, red herring, appeal to authority, appeal to emotion, bandwagon, post hoc, begging the question, equivocation, false analogy, non sequitur"}
+{"instruction": "Determine if the provided sequence is an arithmetic progression.", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Determine the sentiment expressed in a given text.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "[insert reddit thread text here] - analyzing for hate speech...", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "[insert political opinions here] - classifying based on provided opinions...", "is_classification": "Yes", "labels": "liberal, conservative, moderate"}
+{"instruction": "Dialogue classification: provide dialogue text for classification.", "is_classification": "Yes", "labels": "customer, agent, bot, other"}
+{"instruction": "Analyze the opinions given and determine political affiliation based on typical party platforms and values.", "is_classification": "Yes", "labels": "Democrat, Republican, Independent, Other"}
+{"instruction": "Analyze the email content and determine if it contains promotional language or offers.", "is_classification": "Yes", "labels": "promotional, non-promotional"}
+{"instruction": "Determine whether the following statement is true or false: \"the earth revolves around the sun.\"", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Analyze the tone of a given piece of text and describe it in one word.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze political opinions presented and determine if they align more closely with democratic or republican ideologies.", "is_classification": "Yes", "labels": "democratic, republican"}
+{"instruction": "Identify the tone of the following email. output \"positive,\" \"neutral,\" or \"negative.\"", "is_classification": "Yes", "labels": "positive, neutral, negative"}
+{"instruction": "Determine if the argument presented is logically sound or not. output 1 for sound, and 0 for not.", "is_classification": "Yes", "labels": "1, 0"}
+{"instruction": "Analyze the tone of a given piece of writing to determine if it is formal or informal.", "is_classification": "Yes", "labels": "formal, informal"}
+{"instruction": "Determine if the given text is written in passive or active voice.", "is_classification": "Yes", "labels": "active, passive"}
+{"instruction": "Determine if the provided url is safe to visit by checking it against known phishing sites.", "is_classification": "Yes", "labels": "safe, unsafe"}
+{"instruction": "Sentence: \"i love the food, but the service was terrible.\" sentiment: mixed", "is_classification": "Yes", "labels": "positive, negative, mixed"}
+{"instruction": "Classify sentiment: \"i love the new design, but it still has some bugs.\"", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Classify the sentiment: \"i love this product, but the shipping was slow.\"", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the tone and sentiment of a customer review to determine overall satisfaction", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Assess the instance provided and determine if it exhibits passive-aggressive behavior; return 1 for yes, 0 for no.", "is_classification": "Yes", "labels": "1, 0"}
+{"instruction": "Analyze a paragraph, identify each sentence by index, and select the one with the most words.", "is_classification": "Yes", "labels": "0, 1, 2, 3, ... (index of the sentence with the most words)"}
+{"instruction": "Evaluate a given sentence for the presence of offensive or harmful language.", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Assess whether a statement is passive-aggressive; return 1 if true, otherwise return 0.", "is_classification": "Yes", "labels": "1, 0"}
+{"instruction": "Analyze a paragraph to find the sentence with the most words, then provide its index within the paragraph.", "is_classification": "Yes", "labels": "0, 1, 2, 3, ..."}
+{"instruction": "Assess if a statement is passive-aggressive; return 1 for yes, 0 for no.", "is_classification": "Yes", "labels": "1, 0"}
+{"instruction": "Evaluate the validity of an argument based on its premises and conclusion.", "is_classification": "Yes", "labels": "valid, invalid"}
+{"instruction": "Identify the longest sentence in terms of word count from the paragraph and indicate its position as a numerical index.", "is_classification": "Yes", "labels": "0, 1, 2, 3, ..."}
+{"instruction": "Evaluate an email's content and context to determine if it is spam, outputting true for spam and false otherwise.", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Select a topic for the article from the following options: politics, sports, health, science, business, finance, or entertainment.", "is_classification": "Yes", "labels": "politics, sports, health, science, business, finance, entertainment"}
+{"instruction": "Select \"add account\" or similar option.", "is_classification": "Yes", "labels": "add account"}
+{"instruction": "Choose the type of email account (e.g., gmail, yahoo, outlook).", "is_classification": "Yes", "labels": "gmail, yahoo, outlook"}
+{"instruction": "Select \"add account\" or \"set up email.\"", "is_classification": "Yes", "labels": "add account, set up email"}
+{"instruction": "Classify given political opinions as belonging to democrats or republicans.", "is_classification": "Yes", "labels": "democrats, republicans"}
+{"instruction": "Evaluate whether a specific behavior is ethical or not, and provide an \"ethical\" or \"not ethical\" judgment.", "is_classification": "Yes", "labels": "ethical, not ethical"}
+{"instruction": "Determine if the following statement is fact or opinion based on the context provided.", "is_classification": "Yes", "labels": "fact, opinion"}
+{"instruction": "The grammatical tense of the sentence.", "is_classification": "Yes", "labels": "past, present, future"}
+{"instruction": "User utterance: \"i need to change the delivery address for my order.\" predicted intent: 2 (shipping & delivery)", "is_classification": "Yes", "labels": "shipping & delivery"}
+{"instruction": "\"i need to track my package\" - output: 2 (shipping & delivery)", "is_classification": "Yes", "labels": "shipping, delivery"}
+{"instruction": "Identify the author's tone in the given passage (e.g., optimistic, critical, neutral) and provide evidence from the text to support your answer.", "is_classification": "Yes", "labels": "optimistic, critical, neutral"}
+{"instruction": "Determine whether the given number is prime or not.", "is_classification": "Yes", "labels": "prime, not prime"}
+{"instruction": "Predict user intent given the utterance: if the user says, \"i need help tracking my package,\" output 2 for shipping & delivery.", "is_classification": "Yes", "labels": "1, 2, 3, 4, 5"}
+{"instruction": "The tone and sentiment of a customer review, categorizing it as positive, negative, or neutral", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "For a given sentence, provide the part-of-speech tags for each word using labels such as adjective, adverb, conjunction, determiner, noun, number, preposition, pronoun, verb.", "is_classification": "Yes", "labels": "adjective, adverb, conjunction, determiner, noun, number, preposition, pronoun, verb"}
+{"instruction": "Evaluate the logical soundness of the provided syllogism.", "is_classification": "Yes", "labels": "valid, invalid"}
+{"instruction": "Predict whether news has a positive, negative, or neutral impact on a company's stock price.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Assess if a person's personality is suitable for a specific job role.", "is_classification": "Yes", "labels": "suitable, not suitable"}
+{"instruction": "Analyze the pros and cons of implementing a four-day workweek in corporate environments. determine the sentiment of a given text as positive, negative, or neutral", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Verify the statement: \"the earth is flat.\"", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Analyze the tone of the email and classify it as formal, informal, or neutral.", "is_classification": "Yes", "labels": "formal, informal, neutral"}
+{"instruction": "Determine if a given year is a leap year or not.", "is_classification": "Yes", "labels": "leap year, not a leap year"}
+{"instruction": "Determine if two sentences convey the same idea, output \"yes\" or \"no.\"", "is_classification": "Yes", "labels": "yes, no"}
+{"instruction": "Convert the temperature from celsius to fahrenheit. determine the sentiment of the given text and classify it as positive, negative, or neutral", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the sentiment of the given social media post.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Assess the environmental impact of a proposed construction project. determine the sentiment of the given text, categorizing it as positive, negative, or neutral", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Evaluate an email's content, sender information, and context to determine if it is spam, providing a true or false classification based on criteria such as unsolicited offers, suspicious links, or irrelevant messages.", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Analyze the following text to determine its sentiment: positive, negative, or neutral.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the tone of a given piece of writing and categorize it as formal, informal, neutral, or persuasive.", "is_classification": "Yes", "labels": "formal, informal, neutral, persuasive"}
+{"instruction": "The statement \"the earth is flat\" is false; scientific evidence supports that the earth is an oblate spheroid.", "is_classification": "Yes", "labels": "true, false"}
+{"instruction": "Ethical or not ethical?", "is_classification": "Yes", "labels": "ethical, not ethical"}
+{"instruction": "The main theme or message of the passage. determine whether the statement is a fact or an opinion", "is_classification": "Yes", "labels": "fact, opinion"}
+{"instruction": "Analyze the sentiment of customer reviews from an e-commerce website.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Identify all the categories that a given news article belongs to from a provided list of possible categories.", "is_classification": "Yes", "labels": "categories from the provided list"}
+{"instruction": "The tone of the given text: positive, negative, or neutral.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze news articles to predict their impact on a company's stock price as positive, negative, or neutral.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the sentiment of customer reviews for a specific product and summarize the overall perception as positive, negative, or neutral.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the sentiment of customer reviews to determine if they are positive, negative, or neutral.", "is_classification": "Yes", "labels": "positive, negative, neutral"}
+{"instruction": "Analyze the content of the email to determine if it includes promotional language, offers, or marketing material.", "is_classification": "Yes", "labels": "promotional, non-promotional"}
+{"instruction": "Analyze the sentiment of customer reviews to determine overall satisfaction with a product or service.", "is_classification": "Yes", "labels": "positive, negative, neutral"}

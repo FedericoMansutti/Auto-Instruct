@@ -2,29 +2,29 @@ output_first_template_for_clf = '''Given the classification task definition and 
 
 Task: Classify the sentiment of the sentence into positive, negative, or mixed.
 Class label: mixed
-Instance: I enjoy the flavor of the restaurant but their service is too slow.
+Input: I enjoy the flavor of the restaurant but their service is too slow.
 
 Task: Given a dialogue, classify whether the user is satisfied with the service. You should respond with "Satisfied" or "Unsatisfied".
 Class label: Satisfied
-Instance:
+Input:
 - Agent: Thank you for your feedback. We will work to improve our service in the future.
 - Customer: I am happy with the service you provided. Thank you for your help.
 
 Task: Given some political opinions, classify whether the person belongs to Democrats or Republicans.
 Class label: Democrats
-Instance: I believe that everyone should have access to quality healthcare regardless of their income level.
+Input: I believe that everyone should have access to quality healthcare regardless of their income level.
 
 Task: Tell me if the following email is a promotion email or not.
 Class label: Promotion
-Instance: Check out our amazing new sale! We've got discounts on all of your favorite products.
+Input: Check out our amazing new sale! We've got discounts on all of your favorite products.
 
 Task: Detect if the Reddit thread contains hate speech.
 Class label: Hate Speech
-Instance: All people of color are stupid and should not be allowed to vote.
+Input: All people of color are stupid and should not be allowed to vote.
 
 Task: Answer the following multiple-choice question. Select A, B, C, or D for the final answer.
 Class label: C
-Instance: What is the capital of Germany?
+Input: What is the capital of Germany?
 A. London
 B. Paris
 C. Berlin
@@ -32,7 +32,7 @@ D. Rome
 
 Task: Answer the following multiple-choice question. Select A, B, C, or D for the final answer.
 Class label: D
-Instance: What is the largest planet in our solar system?
+Input: What is the largest planet in our solar system?
 A) Earth
 B) Saturn
 C) Mars
@@ -41,14 +41,14 @@ D) Jupiter
 
 Task: You need to read a code and detect if there is a syntax error or not. Output true if there is an error, output false if there is not.
 Class label: true
-Instance:
+Input:
 def quick_sort(arr):
     if len(arr) < 2
         return arr
 
 Task: You need to read a code and detect if there is a syntax error or not. Output true if there is an error, output false if there is not.
 Class label: False
-Instance:
+Input:
 def calculate_average(numbers):
     total = 0
     for number in numbers:
@@ -57,32 +57,32 @@ def calculate_average(numbers):
 
 Task: You are provided with a news article, and you need to identify all the categories that this article belongs to. Possible categories include Sports and Politics. Output its categories one by one, separated by a comma.
 Class label: Sports
-Instance: The Golden State Warriors have won the NBA championship for the second year in a row.
+Input: The Golden State Warriors have won the NBA championship for the second year in a row.
 
 Task: Given a credit card statement, the cardholder's spending habits, and the account balance, classify whether the cardholder is at risk of defaulting on their payments or not.
 Class label: At risk
-Instance: Purchases at high-end clothing stores and luxury hotels.
+Input: Purchases at high-end clothing stores and luxury hotels.
 
 Task: Given a social media post, the hashtags used, and a topic. classify whether the post is relevant to the topic or not.
 Class label: Relevant
-Instance: I can't believe the government is still not taking action on climate change. It's time for us to take matters into our own hands.
+Input: I can't believe the government is still not taking action on climate change. It's time for us to take matters into our own hands.
 
 Task: The answer will be 'yes' if the provided sentence contains an explicit mention that answers the given question. Otherwise, answer 'no'. 
 Class label: Yes
-Instance: Jack played basketball for an hour after school.
+Input: Jack played basketball for an hour after school.
 
 Task: Classifying different types of mathematical equations, such as linear, and quadratic equations, based on the coefficients and terms in the equation.
 Class label: Linear equation
-Instance: y = 2x + 5
+Input: y = 2x + 5
 
 Task: Tell me the first number of the given list.
 Class label: 1
-Instance: 1, 2, 3
+Input: 1, 2, 3
 
 Now it's your turn, remember to output the instance in the same format with no preamble.
 Task: {instruction}
 Class label: {class_labels}
-Instance:'''
+Input:'''
 
 method_first_template_for_gen = '''Come up with examples for the following tasks. Try to generate multiple examples when possible. If the task doesn't require additional input, you can generate the output directly.
 

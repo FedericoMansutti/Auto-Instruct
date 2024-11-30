@@ -7,7 +7,7 @@ import argparse
 import pandas as pd
 from collections import OrderedDict
 from gpt3_api import make_requests as make_gpt3_requests
-from templates.instance_gen_template import output_first_template_for_clf, input_first_template_for_gen
+from templates.instance_gen_template import output_first_template_for_clf, method_first_template_for_gen
 
 
 random.seed(42)
@@ -104,7 +104,7 @@ if __name__ == '__main__':
         loaded = [json.loads(line) for line in fin]
         non_classification_instructions = [line for line in loaded if line["is_classification"]=="No"]
         classification_instructions = [line for line in loaded if line["is_classification"]=="Yes"]
-        labels_dict = {line["instruction"]: process_labels(line["output_type"]) for line in classification_instructions}
+        labels_dict = {line["instruction"]: process_labels(line["labels"]) for line in classification_instructions}
 
 
     output_path = os.path.join(args.batch_dir, args.output_file)
