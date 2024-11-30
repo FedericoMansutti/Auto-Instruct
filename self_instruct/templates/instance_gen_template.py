@@ -2,82 +2,53 @@ output_first_template_for_clf = '''Given the classification task definition and 
 
 Task: Classify the sentiment of the sentence into positive, negative, or mixed.
 Class label: mixed
-Sentence: I enjoy the flavor of the restaurant but their service is too slow.
-Class label: Positive
-Sentence: I had a great day today. The weather was beautiful and I spent time with friends and family.
-Class label: Negative
-Sentence: I was really disappointed by the latest superhero movie. I would not recommend it to anyone.
+Instance: I enjoy the flavor of the restaurant but their service is too slow.
 
 Task: Given a dialogue, classify whether the user is satisfied with the service. You should respond with "Satisfied" or "Unsatisfied".
 Class label: Satisfied
-Dialogue:
+Instance:
 - Agent: Thank you for your feedback. We will work to improve our service in the future.
 - Customer: I am happy with the service you provided. Thank you for your help.
-Class label: Unsatisfied
-Dialogue:
-- Agent: I am sorry we will cancel that order for you, and you will get a refund within 7 business days.
-- Customer: oh that takes too long. I want you to take quicker action on this.
 
 Task: Given some political opinions, classify whether the person belongs to Democrats or Republicans.
 Class label: Democrats
-Opinion: I believe that everyone should have access to quality healthcare regardless of their income level.
-Class label: Republicans
-Opinion: I believe that people should be able to keep more of their hard-earned money and should not be taxed at high rates.
+Instance: I believe that everyone should have access to quality healthcare regardless of their income level.
 
 Task: Tell me if the following email is a promotion email or not.
 Class label: Promotion
-Email: Check out our amazing new sale! We've got discounts on all of your favorite products.
-Class label: Not Promotion
-Email: We hope you are doing well. Let us know if you need any help.
+Instance: Check out our amazing new sale! We've got discounts on all of your favorite products.
 
 Task: Detect if the Reddit thread contains hate speech.
 Class label: Hate Speech
-Thread: All people of color are stupid and should not be allowed to vote.
-Class label: Not Hate Speech
-Thread: The best way to cook a steak on the grill.
-
-Task:  Does the information in the document supports the claim? You can answer "Support" or "Unsupport".
-Class label: Unsupport
-Document: After a record-breaking run that saw mortgage rates plunge to all-time lows and home prices soar to new highs, the U.S. housing market finally is slowing. While demand and price gains are cooling, any correction is likely to be a modest one, housing economists and analysts say. No one expects price drops on the scale of the declines experienced during the Great Recession.
-Claim: The US housing market is going to crash soon.
-Class label: Support
-Document: The U.S. housing market is showing signs of strain, with home sales and prices slowing in many areas. Mortgage rates have risen sharply in recent months, and the number of homes for sale is increasing. This could be the beginning of a larger downturn, with some economists predicting a potential housing crash in the near future.
-Claim: The US housing market is going to crash soon.
+Instance: All people of color are stupid and should not be allowed to vote.
 
 Task: Answer the following multiple-choice question. Select A, B, C, or D for the final answer.
 Class label: C
-Question: What is the capital of Germany?
+Instance: What is the capital of Germany?
 A. London
 B. Paris
 C. Berlin
 D. Rome
+
+Task: Answer the following multiple-choice question. Select A, B, C, or D for the final answer.
 Class label: D
-Question: What is the largest planet in our solar system?
+Instance: What is the largest planet in our solar system?
 A) Earth
 B) Saturn
 C) Mars
 D) Jupiter
-Class label: A
-Question: What is the process by which plants make their own food through photosynthesis?
-A) Respiration
-B) Fermentation
-C) Digestion
-D) Metabolism
-Class label: B
-Question: Who wrote the novel "The Great Gatsby"?
-A) Ernest Hemingway
-B) F. Scott Fitzgerald
-C) J.D. Salinger
-D) Mark Twain
+
 
 Task: You need to read a code and detect if there is a syntax error or not. Output true if there is an error, output false if there is not.
 Class label: true
-Code:
+Instance:
 def quick_sort(arr):
     if len(arr) < 2
         return arr
+
+Task: You need to read a code and detect if there is a syntax error or not. Output true if there is an error, output false if there is not.
 Class label: False
-Code:
+Instance:
 def calculate_average(numbers):
     total = 0
     for number in numbers:
@@ -86,59 +57,31 @@ def calculate_average(numbers):
 
 Task: You are provided with a news article, and you need to identify all the categories that this article belongs to. Possible categories include Sports and Politics. Output its categories one by one, separated by a comma.
 Class label: Sports
-Article: The Golden State Warriors have won the NBA championship for the second year in a row.
-Class label: Politics
-Article: The United States has withdrawn from the Paris Climate Agreement.
-Class label: Politics, Sports
-Article: The government has proposed cutting funding for youth sports programs.
+Instance: The Golden State Warriors have won the NBA championship for the second year in a row.
 
 Task: Given a credit card statement, the cardholder's spending habits, and the account balance, classify whether the cardholder is at risk of defaulting on their payments or not.
 Class label: At risk
-Credit card statement: Purchases at high-end clothing stores and luxury hotels.
-Cardholder's spending habits: Frequent purchases at luxury brands and high-end establishments.
-Account balance: Over the credit limit and multiple missed payments.
-Class label: Not at risk
-Credit card statement: Purchases at grocery stores and gas stations.
-Cardholder's spending habits: Regular purchases for necessary expenses and occasional dining out.
-Account balance: Slightly below the credit limit and no missed payments.
+Instance: Purchases at high-end clothing stores and luxury hotels.
 
 Task: Given a social media post, the hashtags used, and a topic. classify whether the post is relevant to the topic or not.
 Class label: Relevant
-Post: I can't believe the government is still not taking action on climate change. It's time for us to take matters into our own hands.
-Hashtags: #climatechange #actnow
-Topic: Climate change
-Class label: Not relevant 
-Post: I just bought the new iPhone and it is amazing!
-Hashtags: #apple #technology
-Topic: Travel
+Instance: I can't believe the government is still not taking action on climate change. It's time for us to take matters into our own hands.
 
 Task: The answer will be 'yes' if the provided sentence contains an explicit mention that answers the given question. Otherwise, answer 'no'. 
 Class label: Yes
-Sentence: Jack played basketball for an hour after school.
-Question: How long did Jack play basketball?
-Class label: No
-Sentence: The leaders of the Department of Homeland Security now appear before 88 committees and subcommittees of Congress.
-Question: How often are they required to appear?
-
-Task: Tell me what's the second largest city by population in Canada.
-Class label: Montreal
+Instance: Jack played basketball for an hour after school.
 
 Task: Classifying different types of mathematical equations, such as linear, and quadratic equations, based on the coefficients and terms in the equation.
 Class label: Linear equation
-Equation: y = 2x + 5
-Class label: Quadratic equation
-Equation: y = x^2 - 4x + 3
+Instance: y = 2x + 5
 
 Task: Tell me the first number of the given list.
 Class label: 1
-List: 1, 2, 3
-Class label: 2
-List: 2, 9, 10
+Instance: 1, 2, 3
 
-Task: Which of the following is not an input type? (a) number (b) date (c) phone number (d) email address (e) all of these are valid inputs.
-Class label: (e)
-
-Task:'''
+Task: {instruction}
+Class label: {class_labels}
+'''
 
 input_first_template_for_gen = '''Come up with examples for the following tasks. Try to generate multiple examples when possible. If the task doesn't require additional input, you can generate the output directly.
 

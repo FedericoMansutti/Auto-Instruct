@@ -13,6 +13,26 @@ from templates.instance_gen_template import output_first_template_for_clf, input
 random.seed(42)
 
 
+def load_existing_results(output_path):
+    existing_requests = {}
+    if os.path.exists(output_path):
+        with open(output_path) as fin:
+            for line in fin:
+                try:
+                    data = json.loads(line)
+                    existing_requests[data["instruction"]] = data
+                except:
+                    pass
+        print(f"Loaded {len(existing_requests)} existing results")
+    return existing_requests
+
+def process_labels(result):
+    return [line.strip() for line in result.split(",")]
+
+def post_process(result):
+    return result.strip()
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -59,7 +79,7 @@ def parse_args():
         help="The engine to use."
     )
     parser.add_argument(
-        "--request_batch_size",
+        "--batch_size",
         type=int,
         default=5,
         help="The number of requests to send in a batch."
@@ -80,90 +100,72 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    with open(os.path.join(args.batch_dir, args.input_file)) as fin:
-        lines = fin.readlines()
-        if args.num_instructions is not None:
-            lines = lines[:args.num_instructions]
-        tasks = []
-        for line in lines:
-            data = json.loads(line)
-            if "metadata" in data:
-                data["instruction_metadata"] = data["metadata"]
-                del data["metadata"]
-            tasks.append(data)
+    with open(os.path.join(args.batch_dir, "output_types.jsonl"), encoding="utf-8") as fin:
+        loaded = [json.loads(line) for line in fin]
+        non_classification_instructions = [line for line in loaded if line["is_classification"]=="No"]
+        classification_instructions = [line for line in loaded if line["is_classification"]=="Yes"]
+        labels_dict = {line["instruction"]: process_labels(line["output_type"]) for line in classification_instructions}
 
-    task_clf_types = {}
-    with open(os.path.join(args.batch_dir, "is_clf_or_not_davinci_template_1.jsonl")) as fin:
-        for line in fin:
-            data = json.loads(line)
-            task_clf_types[data["instruction"]] = data["is_classification"].strip() in ["Yes", "yes", "YES"]
-
-    if args.classification_tasks_only:
-        tasks = [task for task in tasks if task_clf_types[task["instruction"]]]
-    
-    if args.generation_tasks_only:
-        tasks = [task for task in tasks if not task_clf_types[task["instruction"]]]
 
     output_path = os.path.join(args.batch_dir, args.output_file)
-    existing_requests = {}
-    if os.path.exists(output_path):
-        with open(output_path) as fin:
-            for line in tqdm.tqdm(fin):
-                try:
-                    data = json.loads(line)
-                    existing_requests[data["instruction"]] = data
-                except:
-                    pass
-        print(f"Loaded {len(existing_requests)} existing requests")
 
-    progress_bar = tqdm.tqdm(total=len(tasks))
-    with open(output_path, "w") as fout:
-        for batch_idx in range(0, len(tasks), args.request_batch_size):
-            batch = tasks[batch_idx: batch_idx + args.request_batch_size]
-            if all(d["instruction"] in existing_requests for d in batch):
-                for d in batch:
-                    data = existing_requests[d["instruction"]]
-                    data = OrderedDict(
-                        (k, data[k]) for k in \
-                            ["instruction", "raw_instances", "instance_metadata", "instruction_metadata", 
-                            "most_similar", "avg_similarity_score"]
-                        )
-                    fout.write(json.dumps(data, ensure_ascii=False) + "\n")
-            else:
-                prompts = []
-                for task in batch:
-                    if task_clf_types[task["instruction"]]:
-                        prompt = output_first_template_for_clf + " " + task["instruction"].strip() + "\n"
-                        prompts.append(prompt)
-                    else:
-                        prompt = input_first_template_for_gen + " " + task["instruction"].strip() + "\n"
-                        prompts.append(prompt)
-                results = make_gpt3_requests(
-                    engine=args.engine,
-                    prompts=prompts,
-                    # because the clf template is longer, we need to decrease the max_tokens
-                    max_tokens=300 if any(task_clf_types[task["instruction"]] for task in batch) else 350,
-                    temperature=0,
-                    top_p=0,
-                    frequency_penalty=0,
-                    presence_penalty=1.5,
-                    stop_sequences=[f"Example {args.max_instances_to_generate + 1}", "Task:"],
-                    logprobs=1,
-                    n=1,
-                    best_of=1,
-                    api_key=args.api_key,
-                    organization=args.organization)
-                for i in range(len(batch)):
-                    data = batch[i]
-                    data["instance_metadata"] = results[i]
-                    if results[i]["response"] is not None:
-                        data["raw_instances"] = results[i]["response"]["choices"][0]["text"]
-                    else:
-                        data["raw_instances"] = ""
-                    data = OrderedDict(
-                        (k, data[k]) for k in \
-                            ["instruction", "raw_instances", "instance_metadata", "instruction_metadata", 
-                            "most_similar", "avg_similarity_score"]
-                        )
-                    fout.write(json.dumps(data, ensure_ascii=False) + "\n")
+    existing_requests = load_existing_results(output_path)
+
+    count_removed_clf = 0
+    count_removed_non_clf = 0
+    for instruction in existing_requests:
+        if instruction in non_classification_instructions:
+            non_classification_instructions.remove(instruction)
+            count_removed_non_clf += 1
+        if instruction in classification_instructions:
+            classification_instructions.remove(instruction)
+            count_removed_clf += 1
+
+
+    print(f"Removed {count_removed_non_clf} from non-classification instructions")
+    print(f"Removed {count_removed_clf} from classification instructions")
+
+    progress_bar = tqdm(total=len(classification_instructions), desc="Processing non-classification")
+
+    with open(output_path, 'a', encoding='utf-8') as fout:
+        for batch_idx in range(0, len(non_classification_instructions), args.batch_size):
+            batch = classification_instructions[batch_idx: batch_idx + args.batch_size]
+            template = output_first_template_for_clf
+            
+            prompts = []
+            prompt_metadata = []
+
+            for instruction in batch:
+                for label in labels_dict[instruction]:
+                    prompts.append(template.format(instruction=instruction, class_labels=label))
+                    prompt_metadata.append({"instruction": instruction, "label": label})
+                    
+
+
+            results = make_gpt3_requests(
+                        engine=args.engine,
+                        prompts=prompts,
+                        max_tokens=2000,
+                        temperature=0,
+                        top_p=0,
+                        frequency_penalty=0,
+                        presence_penalty=0,
+                        stop_sequences=[],
+                        n=1,
+                        api_key=args.api_key)
+            
+
+            for i, result in enumerate(results):
+                instance = post_process(result["response"])
+                data = {
+                    "instruction": prompt_metadata[i]["instruction"],
+                    "instance": instance,
+                    "is_classification": "Yes",
+                    "class_label": prompt_metadata[i]["label"]
+                }
+                fout.write(json.dumps(data, ensure_ascii=True) + "\n")
+                fout.flush()
+
             progress_bar.update(len(batch))
+
+    progress_bar.close()
