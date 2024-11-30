@@ -125,7 +125,7 @@ if __name__ == '__main__':
     print(f"Removed {count_removed_non_clf} from non-classification instructions")
     print(f"Removed {count_removed_clf} from classification instructions")
 
-    progress_bar = tqdm(total=len(classification_instructions), desc="Processing non-classification")
+    progress_bar = tqdm.tqdm(total=len(classification_instructions), desc="Processing classification")
 
     with open(output_path, 'a', encoding='utf-8') as fout:
         for batch_idx in range(0, len(non_classification_instructions), args.batch_size):
@@ -136,9 +136,9 @@ if __name__ == '__main__':
             prompt_metadata = []
 
             for instruction in batch:
-                for label in labels_dict[instruction]:
-                    prompts.append(template.format(instruction=instruction, class_labels=label))
-                    prompt_metadata.append({"instruction": instruction, "label": label})
+                for label in labels_dict[instruction["instruction"]]:
+                    prompts.append(template.format(instruction=instruction["instruction"], class_labels=label))
+                    prompt_metadata.append({"instruction": instruction["instruction"], "label": label})
                     
 
 
@@ -159,7 +159,6 @@ if __name__ == '__main__':
                 instance = post_process(result["response"])
                 data = {
                     "instruction": prompt_metadata[i]["instruction"],
-                    "instance": instance,
                     "is_classification": "Yes",
                     "class_label": prompt_metadata[i]["label"]
                 }

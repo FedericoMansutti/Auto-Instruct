@@ -79,13 +79,15 @@ Task: Tell me the first number of the given list.
 Class label: 1
 Instance: 1, 2, 3
 
+Now it's your turn, remember to output the instance in the same format with no preamble.
 Task: {instruction}
 Class label: {class_labels}
-'''
+Instance:'''
 
-input_first_template_for_gen = '''Come up with examples for the following tasks. Try to generate multiple examples when possible. If the task doesn't require additional input, you can generate the output directly.
+method_first_template_for_gen = '''Come up with examples for the following tasks. Try to generate multiple examples when possible. If the task doesn't require additional input, you can generate the output directly.
 
 Task: Which exercises are best for reducing belly fat at home?
+Method: Whole body exercises.
 Output:
 - Lying Leg Raises
 - Leg In And Out

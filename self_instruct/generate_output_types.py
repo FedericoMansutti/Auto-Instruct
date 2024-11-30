@@ -11,13 +11,51 @@ templates = {
     "template_3": template_3
 }
 
-def post_process(results):
-    results = re.sub(r"strategies: | Strategies: ", "", results)
-    results = re.sub(r"labels: | Labels: ", "", results)
-    output_types = re.split(r"\n", results)
-    output_types = [type.strip() for type in output_types if type.strip() != ""]
+def process_text(text):
+    # Helper function to clean and join text
+    lines = re.split(r"\n", text)
+    cleaned = [line.strip() for line in lines if line.strip() != ""]
+    return " ".join(cleaned)
 
-    return " ".join(output_types)
+def post_process_no_clf(results):
+    output_types = ""
+    input_type = ""
+    
+    # Extract strategies/output types
+        # Extract input type if it appears before strategies
+    if "input:" in results.lower():
+        input_match = re.search(r"input:(.+?)(?=strategies:|$)", results, re.IGNORECASE | re.DOTALL)
+        if input_match:
+            input_text = input_match.group(1)
+            input_type = process_text(input_text)
+    
+    # Extract strategies/output types
+    if "strategies:" in results.lower():
+        output_match = re.search(r"strategies:(.+?)$", results, re.IGNORECASE | re.DOTALL)
+        if output_match:
+            output_text = output_match.group(1)
+            output_types = process_text(output_text)
+    return output_types, input_type
+
+def post_process_clf(results):
+    output_types = ""
+    input_type = ""
+    
+    # Extract strategies/output types
+        # Extract input type if it appears before strategies
+    if "input:" in results.lower():
+        input_match = re.search(r"input:(.+?)(?=labels:|$)", results, re.IGNORECASE | re.DOTALL)
+        if input_match:
+            input_text = input_match.group(1)
+            input_type = process_text(input_text)
+    
+    # Extract strategies/output types
+    if "labels:" in results.lower():
+        output_match = re.search(r"labels:(.+?)$", results, re.IGNORECASE | re.DOTALL)
+        if output_match:
+            output_text = output_match.group(1)
+            output_types = process_text(output_text)
+    return output_types, input_type
 
 def load_existing_results(output_path):
     existing_requests = {}
@@ -113,9 +151,10 @@ if __name__ == '__main__':
             
 
             for i, result in enumerate(results):
-                output_types = post_process(result["response"])
+                output_types, input = post_process_no_clf(result["response"])
                 data = {
                     "instruction": batch[i],
+                    "input": input,
                     "is_classification": "No",
                     "output_type": output_types
                 }
@@ -137,7 +176,7 @@ if __name__ == '__main__':
             results = make_gpt3_requests(
                         engine=args.engine,
                         prompts=prompts,
-                        max_tokens=1000,
+                        max_tokens=2000,
                         temperature=0,
                         top_p=0,
                         frequency_penalty=0,
@@ -148,11 +187,11 @@ if __name__ == '__main__':
             
 
             for i, result in enumerate(results):
-                output_types = post_process(result["response"])
+                labels = process_text(result["response"])
                 data = {
                     "instruction": batch[i],
                     "is_classification": "Yes",
-                    "output_type": output_types
+                    "labels": labels
                 }
                 fout.write(json.dumps(data, ensure_ascii=True) + "\n")
                 fout.flush()

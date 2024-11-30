@@ -1,4 +1,5 @@
-//GENERATE OUTPUT TYPES
+
+//GENERATE INSTANCEs
 {
     "version": "0.2.0",
     "configurations": [
@@ -13,6 +14,30 @@
     ]
 }
 
+
+
+
+
+
+
+
+
+/*
+//GENERATE OUTPUT TYPES
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args":["--batch_dir","data/gpt3_generations/","--engine","gpt-4o","--batch_size","5","--api_key","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"]
+        }
+    ]
+}
+*/
 
 
 
