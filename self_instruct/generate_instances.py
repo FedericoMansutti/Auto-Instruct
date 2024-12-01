@@ -29,6 +29,9 @@ def load_existing_results(output_path):
 def process_labels(result):
     return [line.strip() for line in result.split(",")]
 
+def process_strategies(result):
+     return [line.strip() for line in result.split(".") if line.strip()]
+
 def post_process(result):
     return result.strip()
 
@@ -105,6 +108,7 @@ if __name__ == '__main__':
         non_classification_instructions = [line for line in loaded if line["is_classification"]=="No"]
         classification_instructions = [line for line in loaded if line["is_classification"]=="Yes"]
         labels_dict = {line["instruction"]: process_labels(line["labels"]) for line in classification_instructions}
+        strategies_dict = {line["instruction"]: process_strategies(line["output_type"]) for line in non_classification_instructions}
 
 
     output_path = os.path.join(args.batch_dir, args.output_file)
@@ -114,11 +118,15 @@ if __name__ == '__main__':
     count_removed_clf = 0
     count_removed_non_clf = 0
     for instruction in existing_requests:
-        if instruction in non_classification_instructions:
-            non_classification_instructions.remove(instruction)
+        # Find and remove matching instructions by comparing instruction strings
+        non_clf_match = next((item for item in non_classification_instructions if item["instruction"] == instruction), None)
+        if non_clf_match:
+            non_classification_instructions.remove(non_clf_match)
             count_removed_non_clf += 1
-        if instruction in classification_instructions:
-            classification_instructions.remove(instruction)
+            
+        clf_match = next((item for item in classification_instructions if item["instruction"] == instruction), None)
+        if clf_match:
+            classification_instructions.remove(clf_match)
             count_removed_clf += 1
 
 
@@ -128,7 +136,7 @@ if __name__ == '__main__':
     progress_bar = tqdm.tqdm(total=len(classification_instructions), desc="Processing classification")
 
     with open(output_path, 'a', encoding='utf-8') as fout:
-        for batch_idx in range(0, len(non_classification_instructions), args.batch_size):
+        for batch_idx in range(0, len(classification_instructions), args.batch_size):
             batch = classification_instructions[batch_idx: batch_idx + args.batch_size]
             template = output_first_template_for_clf
             
@@ -156,11 +164,12 @@ if __name__ == '__main__':
             
 
             for i, result in enumerate(results):
-                instance = post_process(result["response"])
+                input = post_process(result["response"])
                 data = {
                     "instruction": prompt_metadata[i]["instruction"],
+                    "input": input,
                     "is_classification": "Yes",
-                    "class_label": prompt_metadata[i]["label"]
+                    "output": prompt_metadata[i]["label"]
                 }
                 fout.write(json.dumps(data, ensure_ascii=True) + "\n")
                 fout.flush()
@@ -168,3 +177,46 @@ if __name__ == '__main__':
             progress_bar.update(len(batch))
 
     progress_bar.close()
+
+    progress_bar = tqdm.tqdm(total=len(non_classification_instructions), desc="Processing non-classification")
+
+    with open(output_path, 'a', encoding='utf-8') as fout:
+        for batch_idx in range(0, len(non_classification_instructions), args.batch_size):
+            batch = non_classification_instructions[batch_idx: batch_idx + args.batch_size]
+            template = method_first_template_for_gen
+            
+            prompts = []
+            prompt_metadata = []
+
+            for instruction in batch:
+                for strategy in strategies_dict[instruction["instruction"]]:
+                    prompts.append(template.format(instruction=instruction["instruction"], input=instruction["input"], strategy=strategy))
+                    prompt_metadata.append({"instruction": instruction["instruction"], "input": instruction["input"], "strategy": strategy})
+                    
+
+            results = make_gpt3_requests(
+                        engine=args.engine,
+                        prompts=prompts,
+                        max_tokens=200,
+                        temperature=0,
+                        top_p=0,
+                        frequency_penalty=0,
+                        presence_penalty=1.5,
+                        stop_sequences=[],
+                        n=1,
+                        api_key=args.api_key)
+            
+
+            for i, result in enumerate(results):
+                output = post_process(result["response"])
+                data = {
+                    "instruction": prompt_metadata[i]["instruction"],
+                    "input": prompt_metadata[i]["input"],
+                    "is_classification": "No",
+                    "strategy": prompt_metadata[i]["strategy"],
+                    "output": output
+                }
+                fout.write(json.dumps(data, ensure_ascii=True) + "\n")
+                fout.flush()
+
+            progress_bar.update(len(batch))
